@@ -20,14 +20,18 @@ services:
       - media:/app/media
     depends_on:
       - db
-
   frontend:
-    env_file: .env
-    build: ./frontend/
-    command: cp -r /app/build/. /frontend_static/
+    build: ./frontend
     volumes:
-      - static:/frontend_static
-
+    - static:/app/build
+    command: ["sh", "-c", "npm run build && http-server -p 8000 /app/build"]
+    ports:
+      - "8000:8000"
+    networks:
+      - default
+    depends_on:
+      - backend
+  
   gateway:
     build: ./nginx
     ports:

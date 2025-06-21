@@ -89,7 +89,7 @@ jobs:
           docker-compose exec backend python manage.py collectstatic --noinput
 
     - name: Notify Telegram on success
-      uses: appleboy/telegram-action@v1.0.1
+      uses: appleboy/telegram-action@v0.1.3
       with:
         to: ${{ env.TELEGRAM_CHAT_ID }}
         token: ${{ env.TELEGRAM_TOKEN }}

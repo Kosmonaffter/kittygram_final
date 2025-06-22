@@ -1,8 +1,8 @@
 version: '3.8'
 
 volumes:
-  pg_data:
-  static:
+  pg_data_production:
+  static_volume:
   media:
 
 services:
@@ -10,16 +10,17 @@ services:
     image: postgres:13.10
     env_file: .env
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - pg_data_production:/var/lib/postgresql/data
 
   backend:
-    build: ./backend/
+    image: kosmonafft/kittygram_backend:latest
     env_file: .env
     volumes:
-      - static:/app/static
+      - static_volume:/app/static
       - media:/app/media
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
       interval: 30s
@@ -28,19 +29,16 @@ services:
       start_period: 60s
 
   frontend:
-    build: ./frontend/
+    image: kosmonafft/kittygram_frontend:latest
     env_file: .env
-    # command: cp -r /app/build/. /frontend_static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/frontend_static
+      - static_volume:/frontend_static
 
   gateway:
-    build: ./nginx/
+    image: kosmonafft/kittygram_gateway:latest
     volumes:
-      - static:/staticfiles/
+      - static_volume:/staticfiles/
       - media:/media
     ports:
       - 9000:80
-    depends_on:
-      - backend
-      - frontend

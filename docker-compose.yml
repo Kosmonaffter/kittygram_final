@@ -1,9 +1,4 @@
-version: '3.8'
-
-volumes:
-  pg_data:
-  static:
-  media:
+version: "3"
 
 services:
   db:
@@ -11,36 +6,45 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   backend:
-    build: ./backend/
+    build: ./backend
     env_file: .env
-    volumes:
-      - static:/app/static
-      - media:/app/media
     depends_on:
       - db
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
+    volumes:
+      - static:/backend_static
+      - media:/backend_media
+    networks:
+      - app-network
 
   frontend:
-    build: ./frontend/
+    build: ./frontend
     env_file: .env
-    # command: cp -r /app/build/. /frontend_static/
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8000
     volumes:
       - static:/frontend_static
+    networks:
+      - app-network
 
   gateway:
-    build: ./nginx/
+    build: ./nginx
     volumes:
       - static:/staticfiles/
-      - media:/media
+      - media:/mediafiles/
     ports:
-      - 9000:80
-    depends_on:
-      - backend
-      - frontend
+      - "9000:80"
+    networks:
+      - app-network
+
+volumes:
+  pg_data:
+  static:
+  media:
+
+networks:
+  app-network:
+    driver: bridge

@@ -58,48 +58,6 @@ def _get_js_link(response: requests.Response) -> Optional[str]:
     search_result = re.search(js_link_pattern, response.text)
     return search_result.group(0) if search_result else None
 
-# # Начало теста
-# def test_link_connection(
-#         deploy_file_info: tuple[Path, str],
-#         deploy_info_file_content: dict[str, str],
-#         link_key: str
-# ) -> None:
-#     link = _get_validated_link(deploy_file_info, deploy_info_file_content,
-#                                link_key)
-    
-#     # Добавляем отладочную информацию перед запросом
-#     print(f"\n[DEBUG] Starting test for: {link_key}")
-#     print(f"[DEBUG] Request URL: {link}")
-    
-#     response = _make_safe_request(link)
-    
-#     # Добавляем отладочную информацию после запроса
-#     print(f"[DEBUG] Response status: {response.status_code}")
-#     print(f"[DEBUG] Response headers: {response.headers}")
-#     print(f"[DEBUG] First 200 chars of content: {response.text[:200]}\n")
-    
-#     cats_project_name = 'Kittygram'
-#     taski_project_name = 'Taski'
-#     assert_msg_template = (
-#         f'Убедитесь, что по ссылке `{link}` доступен проект '
-#         '`{project_name}`.'
-#     )
-#     if link_key == 'kittygram_domain':
-#         assert cats_project_name in response.text, (
-#             assert_msg_template.format(project_name=cats_project_name)
-#         )
-#     else:
-#         assert_msg = assert_msg_template.format(
-#             project_name=taski_project_name
-#         )
-#         js_link = _get_js_link(response)
-#         assert js_link, assert_msg
-#         try:
-#             taski_response = requests.get(f'{link}/{js_link}')
-#         except requests.exceptions.ConnectionError:
-#             raise AssertionError(assert_msg)
-#         assert taski_response.status_code == HTTPStatus.OK, assert_msg
-#         assert taski_project_name in taski_response.text, assert_msg
 
 def test_link_connection(
         deploy_file_info: tuple[Path, str],

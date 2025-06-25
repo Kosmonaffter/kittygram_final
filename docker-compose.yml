@@ -23,8 +23,7 @@ services:
   frontend:
     build: ./frontend
     env_file: .env
-    environment:
-      - REACT_APP_BACKEND_URL=http://backend:8000
+    command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
     networks:

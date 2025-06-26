@@ -97,6 +97,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_frontend:latest
 
   build_and_push_gateway:
+    needs: build_and_push_backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -120,6 +121,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Copy project files to server
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: |
+            docker-compose.production.yml
+            kittygram_final/
+          target: ~/kittygram
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v0.1.6
         with:

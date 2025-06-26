@@ -3,6 +3,7 @@ version: '3'
 volumes:
   pg_data_production:
   static_volume:
+  media_volume:
 
 networks:
   app-network:
@@ -20,15 +21,17 @@ services:
   backend:
     image: kosmonafft/kittygram_backend
     env_file: .env
+    depends_on:
+      - db
     volumes:
       - static_volume:/backend_static
+      - media_volume:/backend_media
     networks:
       - app-network
 
   frontend:
     image: kosmonafft/kittygram_frontend
     env_file: .env
-    command: cp -r /app/build/. /frontend_static/
     volumes:
       - static_volume:/frontend_static
     networks:
@@ -39,6 +42,7 @@ services:
     env_file: .env
     volumes:
       - static_volume:/staticfiles/
+      - media_volume:/mediafiles/
     ports:
       - 9000:80
     networks:

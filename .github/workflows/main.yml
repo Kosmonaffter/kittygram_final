@@ -128,9 +128,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: |
-            docker-compose.production.yml
-            kittygram_final/
+          source: docker-compose.production.yml,kittygram_final/
           target: ~/kittygram
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v0.1.6

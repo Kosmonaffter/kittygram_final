@@ -218,6 +218,7 @@ SSH доступ по ключу
 Приложение готово к работе
 
 🧪 Тестирование
+``` python
 Backend тесты
 bash
 cd backend
@@ -229,6 +230,7 @@ npm test -- --watchAll=false
 Code quality
 bash
 flake8 backend/
+```
 🔒 Безопасность
 Token Authentication через Djoser
 

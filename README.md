@@ -16,7 +16,7 @@ Kittygram — это full-stack веб-приложение для обмена 
 - **Автоматизация деплоя** с помощью CI/CD
 - **Пример production-ready** приложения с микросервисной архитектурой
 - **Демонстрация best practices** в DevOps и full-stack разработке
-
+``` python
 ## 🏗️ Архитектура
 Kittygram/
 ├── 🐍 backend/ (Django REST API)
@@ -25,8 +25,7 @@ Kittygram/
 ├── 📦 docker-compose.yml (Development)
 ├── 🏭 docker-compose.production.yml (Production)
 └── ⚙️ .github/workflows/ (CI/CD pipeline)
-
-text
+```
 
 ## 🛠️ Технологический стек
 
@@ -53,7 +52,7 @@ text
 
 Проект настроен с полным CI/CD пайплайном:
 
-```bash
+``` python
 # 1. Клонировать репозиторий
 git clone https://github.com/Kosmonaffter/kittygram_final.git
 cd kittygram_final
@@ -62,6 +61,7 @@ cd kittygram_final
 git add .
 git commit -m "Deploy Kittygram"
 git push origin main
+```
 После пуша автоматически выполняются:
 
 ✅ Запуск тестов backend и frontend
@@ -75,7 +75,7 @@ git push origin main
 ✅ Миграции и сбор статики
 
 ✅ Уведомление в Telegram о статусе
-
+``` python
 Ручной запуск (для разработки)
 bash
 # Запуск всех сервисов
@@ -89,11 +89,13 @@ docker-compose exec backend python manage.py collectstatic --noinput
 
 # Создание суперпользователя
 docker-compose exec backend python manage.py createsuperuser
+```
+
 Приложение будет доступно по адресу: http://localhost:9000
 
 📁 Структура проекта
 Backend (Django)
-text
+``` python
 backend/
 ├── cats/                    # Основное приложение
 │   ├── models.py           # Модели Cat, Achievement
@@ -119,6 +121,8 @@ nginx/
 docker-compose.yml         # Development окружение
 docker-compose.production.yml # Production окружение
 .github/workflows/main.yml # CI/CD пайплайн
+```
+
 🔧 API Endpoints
 Аутентификация
 POST /api/users/ - Регистрация
@@ -142,6 +146,7 @@ DELETE /api/cats/{id}/ - Удаление
 GET /api/achievements/ - Список достижений
 
 🎯 Ключевые особенности
+
 🔄 Кастомные сериализаторы
 python
 class Base64ImageField(serializers.ImageField):
@@ -152,6 +157,7 @@ class Base64ImageField(serializers.ImageField):
             ext = format.split('/')[-1]
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
         return super().to_internal_value(data)
+
 🎨 Поддержка цветов
 python
 class Hex2NameColor(serializers.Field):
@@ -162,12 +168,13 @@ class Hex2NameColor(serializers.Field):
         except ValueError:
             raise serializers.ValidationError('Для этого цвета нет имени')
         return data
+
 🐳 Полная Docker-зация
 Мульти-стадийные сборки
 
 Оптимизированные production образы
 
-Изолированные сервисы
+*Изолированные сервисы*
 
 ⚙️ CI/CD Pipeline
 Этапы пайплайна:
@@ -252,6 +259,7 @@ Telegram уведомления о статусе деплоя
 Рекомендуется бэкап БД перед обновлениями
 
 🤝 Разработка
+``` python
 Локальная разработка
 bash
 # Backend отдельно
@@ -261,7 +269,10 @@ python manage.py runserver
 # Frontend отдельно  
 cd frontend
 npm start
+```
+
 Добавление новых фич
+
 Создать feature ветку
 
 Реализовать функциональность

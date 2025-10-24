@@ -1,5 +1,5 @@
 # 🐱 Kittygram
-
+![alt text](Logo/Screen.png)![alt text](Logo/Screen1.png)![alt text](Logo/Screen2.png)
 **Социальная сеть для любителей котиков** с полнофункциональным CI/CD пайплайном и автоматическим деплоем.
 
 ![Django](https://img.shields.io/badge/Django-3.2.3-green.svg)
@@ -266,6 +266,12 @@ Telegram уведомления о статусе деплоя
 bash
 # Backend отдельно
 cd backend
+# Примените миграции
+python manage.py migrate
+# Создайте суперпользователя (опционально)
+python manage.py createsuperuser
+
+# Запустите сервер
 python manage.py runserver
 
 # Frontend отдельно  
